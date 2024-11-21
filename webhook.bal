@@ -8,9 +8,9 @@ configurable asgardeo:ListenerConfig config = ?;
 listener http:Listener httpListener = new(8090);
 listener asgardeo:Listener webhookListener = new(config, httpListener);
 
-service asgardeo:UserOperationService on webhookListener {
+service asgardeo:RegistrationService on webhookListener {
     
-    remote function onRegisterUser(asgardeo:AddUserEvent event ) returns error? {
+    remote function onAddUser(asgardeo:AddUserEvent event ) returns error? {
       log:printInfo("onAddUser");
       log:printInfo(event.toJsonString());
 
@@ -19,12 +19,13 @@ service asgardeo:UserOperationService on webhookListener {
         var test = check testClient->/tests.post(event.toJsonString());
         io:println("\nPOST request:" + res.toJsonString());
     }
-    // Implementações vazias para métodos obrigatórios
-    remote function onDeleteUser(asgardeo:GenericEvent event) returns error? {}
-    remote function onLockUser(asgardeo:GenericEvent event) returns error? {}
-    remote function onUnlockUser(asgardeo:GenericEvent event) returns error? {}
-    remote function onUpdateUserCredentials(asgardeo:UpdateUserCredentialsEvent event) returns error? {}
-    remote function onUpdateUserGroup(asgardeo:UserGroupUpdateEvent event) returns error? {}
+    remote function onConfirmSelfSignup(asgardeo:GenericEvent event ) returns error? {
+        log:printInfo(event.toJsonString());
+    }
+  
+    remote function onAcceptUserInvite(asgardeo:GenericEvent event ) returns error? {
+        log:printInfo(event.toJsonString());
+    }
 }
 
 service /ignore on httpListener {}
