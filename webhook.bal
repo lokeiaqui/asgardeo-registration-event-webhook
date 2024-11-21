@@ -7,7 +7,7 @@ configurable asgardeo:ListenerConfig config = ?;
 listener http:Listener httpListener = new(8090);
 listener asgardeo:Listener webhookListener = new(config, httpListener);
 
-service asgardeo:RegistrationsService on webhookListener {
+service asgardeo:UserOperationService on webhookListener {
     
     remote function onAddUser(asgardeo:AddUserEvent event ) returns error? {
       log:printInfo("onAddUser");
