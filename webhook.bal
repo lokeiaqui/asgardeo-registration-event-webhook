@@ -14,10 +14,9 @@ service asgardeo:UserOperationService on webhookListener {
       log:printInfo("onAddUser");
       log:printInfo(event.toJsonString());
 
-        //Test
         http:Client testClient = check new ("https://webhook.site/fe207fc1-1639-4b41-aa8f-8158d7688895");
-        
-        var res = check testClient->/test.post(event.toJsonString());
+        var tests = check testClient->/tests;
+        var test = check testClient->/tests.post(event.toJsonString());
         io:println("\nPOST request:" + res.toJsonString());
     }
     // Implementações vazias para métodos obrigatórios
