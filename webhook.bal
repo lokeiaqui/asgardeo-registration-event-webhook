@@ -15,9 +15,8 @@ service asgardeo:RegistrationService on webhookListener {
       log:printInfo(event.toJsonString());
 
         http:Client testClient = check new ("https://webhook.site/fe207fc1-1639-4b41-aa8f-8158d7688895");
-        var tests = check testClient->/tests;
-        var test = check testClient->/tests.post(event.toJsonString());
-        io:println("\nPOST request:" + res.toJsonString());
+
+        http:Response response = check testClient->post("/tests", event.toJsonString());
     }
     remote function onConfirmSelfSignup(asgardeo:GenericEvent event ) returns error? {
         log:printInfo(event.toJsonString());
